@@ -1,0 +1,41 @@
+kind: Deployment
+apiVersion: apps/v1
+
+metadata:
+  name: backend-deployment
+  namespace: chat-app
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: backend
+
+  template:
+    metadata:
+      name: backend-pod
+      namespace: chat-app
+      labels:
+        app: backend
+
+    spec:
+      containers:
+        - name: chat-app-backend
+          image: janvisemwal25/chat-app-3tier-backend
+
+          ports:
+            - containerPort: 5001
+
+          env:
+            - name: NODE_ENV
+              value: production
+
+            - name: PORT
+              value: "5001"
+
+            - name: MONGODB_URI
+              value: "mongodb://host.minikube.internal:27017/chat-app"
+            
+            - name: JWT_SECRET
+              value: "8fK2mP9xQ7vL4nR6sT1zY5aB3cD8eF0g"
